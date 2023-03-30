@@ -125,7 +125,7 @@ window.onload = function() {
               var fieldName = document.createElement("div");
       
               fieldName.innerHTML += `
-              <p>${facets[keys[ind]]["displayName"]}</p>
+              <p><u>${facets[keys[ind]]["displayName"]}</u></p>
               <form id = "category">
               `
       

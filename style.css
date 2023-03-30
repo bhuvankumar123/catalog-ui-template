@@ -1,13 +1,15 @@
 .sidebar {
     margin: 0;
     padding: 0;
-    width: 15%;
     background-color:gradient(whitesmoke,white);
-    position:fixed;
     height: 100%;
+    width: 15%;
     overflow: auto;
     display:block;
+    position:absolute;
     border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
   }
   
 /* Sidebar links */
@@ -17,11 +19,6 @@
     padding: 16px;
     text-decoration: none;
     
-  }
-  header{
-    justify-content: center;
-  align-items: center;
-  display:flex;
   }
   
   /* Active/current link */
@@ -37,11 +34,13 @@
 body{
   background-color:whitesmoke;
 }
+container{
+  display: flex;
+}
 nav{
   background-color:white;
-  position:sticky;
-  z-index: 999;
-  /* overflow: auto; */
+  position:fixed;
+  overflow: auto; 
   display:block;
   top:0;
   width:100%;
@@ -50,6 +49,7 @@ nav{
 }
 #forma{
   margin-left: 15rem;
+  margin-right: 3rem;
 }
 .card{
     margin-top: 8rem;
