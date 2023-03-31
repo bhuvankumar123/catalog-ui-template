@@ -11,26 +11,6 @@
     border-bottom: 1px solid black;
     text-align: center;
   }
-  
-/* Sidebar links */
-  .sidebar a {
-    display: block;
-    color: black;
-    padding: 16px;
-    text-decoration: none;
-    
-  }
-  
-  /* Active/current link */
-  .sidebar a.active {
-    color: black;
-  }
-  
-  /* Links on mouse-over */
-  .sidebar a:hover:not(.active) {
-    background-color: #555;
-    color: white;
-  }
 body{
   background-color:whitesmoke;
 }
@@ -47,10 +27,12 @@ nav{
   height:75px;
   border-bottom: 1px solid black;
 }
+/* grid formatting */
 #forma{
   margin-left: 15rem;
   margin-right: 3rem;
 }
+/* Individual Product Cards */
 .card{
     margin-top: 8rem;
     margin-bottom: 8rem;
@@ -61,18 +43,25 @@ nav{
     transition: all .5s ease;
     background-color: whitesmoke;
 }
+/* Adding shadows for the product cards and the button*/
 .card:hover{
     transform: translate3d(0,-1px,0) scale(1.07);
     transition: all .4s ease;
     box-shadow: 0 0 20px rgba(33,33,33,1);
 }
-
+button:hover{
+  opacity:0.8;
+  box-shadow: 0 0 11px rgba(33,33,33,1);
+  transform: translate3d(0,-1px,0) scale(1.07);
+  transition: all .4s ease; 
+}
+/*formating the search bar*/
 #srcq{
   width:150px;
   float:right;
   margin-left: 67rem;
 }
-
+/*formatting the pagination elements*/
 #pagi{
   justify-content: center;
   align-items: center;
@@ -91,9 +80,4 @@ nav{
   background-color: black;
 }
 
-button:hover{
-  opacity:0.8;
-  box-shadow: 0 0 11px rgba(33,33,33,1);
-  transform: translate3d(0,-1px,0) scale(1.07);
-  transition: all .4s ease; 
-}
+

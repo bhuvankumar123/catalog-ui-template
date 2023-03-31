@@ -1,3 +1,4 @@
+// function to implement debouncing
 function debounce(func,timeout=3000){
   let timer;
   return (args) => {
@@ -5,10 +6,12 @@ function debounce(func,timeout=3000){
     timer = setTimeout(() => { func.apply(this,args);}, timeout);
   };
 }
+//function to implement search
 function search(){
     let searchQuery = document.getElementById("srcq").value;
     window.location.href=`PLP.html?q=${searchQuery}`;
   }
+//function to implement filtering based on facets selected by the user
 function checkbox(){
   var dict = {}
   var markedcheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -21,7 +24,7 @@ function checkbox(){
       dict[markedcheckbox[i].className].push(markedcheckbox[i].id);
     }
   }
-  console.log(dict)
+  //console.log(dict)
   var keys = Object.keys(dict);
   var facetquery = [];
   for (let i=0; i<keys.length; i+=1){
@@ -61,8 +64,10 @@ function checkbox(){
   }
   window.location.href=`PLP.html?facets=${facetquery}`
 }
+// calling search and filtering functions with debouncing
 const processChanges = debounce(() => search());
 const check = debounce(() => checkbox());
+// implementing function for pagination to go back to the previous page
 function prev(){
   const queryString = new URL(window.location.href)
   pag = queryString.searchParams.get('page')
@@ -74,7 +79,7 @@ function prev(){
             window.location.href=queryString
           }
 }
-
+// implementing function for pagination to go to next page
 function next(){
   pagurl=new URL(window.location.href)
           pag = pagurl.searchParams.get('page')
@@ -93,12 +98,18 @@ function next(){
 window.onload = function() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
+    // reading the parameters from the url to get the desired products
     let prod_query = urlParams.get('q');
     let pageno = urlParams.get('page');
     let facets = urlParams.get('facets');
-    let decoded = decodeURIComponent(facets)
+    let decoded = decodeURIComponent(facets);
+    let count = urlParams.get('count');
+    if (count==null){
+      count = 20;
+    }
     const arr1 = decoded.split(",")
-    const arr2=[]
+    const arr2=[];
+    // changing the facets query to match the syntax required to pass it to the fetch command
     for (let i=0;i<arr1.length;i+=1){
       let newq = arr1[i].replaceAll('\\\"','\"');
       arr2.push(newq)
@@ -106,7 +117,8 @@ window.onload = function() {
     if (arr2[0] == "null"){
       arr2.pop()
     }
-    console.log(arr2)
+    //console.log(arr2)
+    // Prechecking all the checkboxes which the user clicked so the user is aware of the filters applied
     /*if (arr2 != []){
       console.log('hi')
       var markedcheckbox1 = document.querySelectorAll('input[type="checkbox"]');
@@ -115,12 +127,12 @@ window.onload = function() {
         checked.checked=true;
       }
       }*/
-    
+    // Displaying the search query in the search bar after page reload
     document.getElementById('srcq').value = prod_query;
     if (pageno == null){
       pageno = 1
     }
-
+    //calling the fetch function with the headers to get the catalog products
     var myHeaders = new Headers();
     myHeaders.append("Accept", "*/*");
     myHeaders.append("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8");
@@ -155,6 +167,7 @@ window.onload = function() {
     fetch("https://pim.unbxd.io/peppercorn/api/v2/catalogueView/6391b1448f93e67002742cef", requestOptions)
     .then(response => {
         response.json().then(data=>{
+          // displaying the product elements as the form of cards in a bootstrap grid
             let prodcard = document.getElementById("forma")
             products=data["response"]["products"]
             for (let i = 0; i < products.length; i++) {
@@ -169,10 +182,10 @@ window.onload = function() {
               </div>`
 
             }
-
+            // calculating the total number of pages based on the total number of products and the count per page and 
+            // displaying them 
             numberofprod = data["response"]["numberOfProducts"];
             pagi=document.getElementById('pagi');
-            var count=20;
             if(Number.isInteger(numberofprod/count)==true){
               datapages=Math.trunc((numberofprod/count))
             }
@@ -192,6 +205,7 @@ window.onload = function() {
               document.getElementById('next').disabled=true;
             }
             }
+            // Displaying the filters and their options in the sidebar
             sidebar=document.getElementsByClassName('sidebar')[0];
             facets = data["facets"]
             keys=Object.keys(facets)
