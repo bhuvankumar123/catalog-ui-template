@@ -9,7 +9,22 @@ function search(){
     let searchQuery = document.getElementById("srcq").value;
     window.location.href=`PLP.html?q=${searchQuery}`;
   }
+function checkbox(){
+  var dict = {}
+  var markedcheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
+  for (let i=0;i<markedcheckbox.length;i+=1){
+    if (!(markedcheckbox[i].className in dict)){
+      dict[markedcheckbox[i].className] = [];
+      dict[markedcheckbox[i].className].push(markedcheckbox[i].id)
+    }
+    else if (markedcheckbox[i].className in dict){
+      dict[markedcheckbox[i].className].push(markedcheckbox[i].id);
+    }
+  }
+  console.log(dict)
+}
 const processChanges = debounce(() => search());
+const check = debounce(() => checkbox());
 function prev(){
   const queryString = new URL(window.location.href)
   pag = queryString.searchParams.get('page')
@@ -125,7 +140,7 @@ window.onload = function() {
               var fieldName = document.createElement("div");
       
               fieldName.innerHTML += `
-              <p><u>${facets[keys[ind]]["displayName"]}</u></p>
+              <p><b>${facets[keys[ind]]["displayName"]}</b></p>
               <form id = "category">
               `
       
@@ -133,7 +148,7 @@ window.onload = function() {
               for (let ind2 = 0; ind2 < facets[keys[ind]]["values"].length; ind2 += 2) {
       
                   fieldName.innerHTML += `
-                      <input type="checkbox" id="input_checkbox">
+                      <input type="checkbox" class="`+facets[keys[ind]]["fieldId"]+`" id="`+facets[keys[ind]]["values"][ind2]+`" onchange=check()>
                       <label for="categorylabel"> ${facets[keys[ind]]["values"][ind2]}(${(facets[keys[ind]]["values"][ind2+1])})</label><br>
                   `
       
