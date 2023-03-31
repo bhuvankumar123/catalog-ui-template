@@ -22,6 +22,44 @@ function checkbox(){
     }
   }
   console.log(dict)
+  var keys = Object.keys(dict);
+  var facetquery = [];
+  for (let i=0; i<keys.length; i+=1){
+    if (dict[keys[i]].length > 1){
+      var stri = "";
+      for (let j=0;j<dict[keys[i]].length;j+=1){
+        if (j==0){
+          stri+=(keys[i]);
+          stri+=":\\";
+          stri+='"';
+          stri+=(dict[keys[i]][j]);
+          stri+="\\";
+          stri+='"';
+        }
+        else{
+          stri+="OR";
+          stri+=(keys[i]);
+          stri+=":\\";
+          stri+='"';
+          stri+=(dict[keys[i]][j]);
+          stri+="\\";
+          stri+='"';
+        }
+      }
+      facetquery.push(stri)
+    }
+    else if(dict[keys[i]].length = 1){
+      var stri="";
+          stri+=(keys[i]);
+          stri+=":\\";
+          stri+='"';
+          stri+=(dict[keys[i]][0]);
+          stri+="\\";
+          stri+='"';
+          facetquery.push(String(stri))
+    }
+  }
+  window.location.href=`PLP.html?facets=${facetquery}`
 }
 const processChanges = debounce(() => search());
 const check = debounce(() => checkbox());
@@ -57,6 +95,27 @@ window.onload = function() {
     const urlParams = new URLSearchParams(queryString);
     let prod_query = urlParams.get('q');
     let pageno = urlParams.get('page');
+    let facets = urlParams.get('facets');
+    let decoded = decodeURIComponent(facets)
+    const arr1 = decoded.split(",")
+    const arr2=[]
+    for (let i=0;i<arr1.length;i+=1){
+      let newq = arr1[i].replaceAll('\\\"','\"');
+      arr2.push(newq)
+    }
+    if (arr2[0] == "null"){
+      arr2.pop()
+    }
+    console.log(arr2)
+    /*if (arr2 != []){
+      console.log('hi')
+      var markedcheckbox1 = document.querySelectorAll('input[type="checkbox"]');
+      console.log(markedcheckbox1)
+      for (var checked of markedcheckbox1){
+        checked.checked=true;
+      }
+      }*/
+    
     document.getElementById('srcq').value = prod_query;
     if (pageno == null){
       pageno = 1
@@ -82,7 +141,7 @@ window.onload = function() {
     var raw = JSON.stringify({
     "page": pageno,
     "count": 20,
-    "facet_filters": [],
+    "facet_filters": arr2,
     "search_str": prod_query
     });
 
