@@ -30,6 +30,7 @@ function checkbox(){
   //console.log(dict)
   var keys = Object.keys(dict);
   var facetquery = [];
+  /* Logic for the First PLP curl
   for (let i=0; i<keys.length; i+=1){
     if (dict[keys[i]].length > 1){
       var stri = "";
@@ -65,6 +66,21 @@ function checkbox(){
           facetquery.push(String(stri))
     }
   }
+  */
+ //Updated Logic for the new PLP Curl
+  for (let i=0; i<keys.length; i+=1){
+    for (let j=0;j<dict[keys[i]].length;j+=1){
+      var stri = "";
+          stri+=(keys[i]);
+          stri+=":\\";
+          stri+='"';
+          stri+=(dict[keys[i]][j]);
+          stri+="\\";
+          stri+='"';
+          facetquery.push(String(stri))
+    
+    }}
+  //console.log(facetquery)
   window.location.href=`PLP.html?facets=${facetquery}`
 }
 // calling search and filtering functions with debouncing
@@ -120,7 +136,7 @@ window.onload = function() {
     if (arr2[0] == "null"){
       arr2.pop()
     }
-    //console.log(arr2)
+    console.log(arr2)
     // Prechecking all the checkboxes which the user clicked so the user is aware of the filters applied
     /*if (arr2 != []){
       console.log('hi')
@@ -138,10 +154,11 @@ window.onload = function() {
     //calling the fetch function with the headers to get the catalog products
     var myHeaders = new Headers();
     myHeaders.append("Accept", "*/*");
-    myHeaders.append("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8");
+    myHeaders.append("Accept-Language", "en-US,en-IN;q=0.9,en;q=0.8");
     myHeaders.append("Connection", "keep-alive");
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Cookie", "ajs_user_id=sivanv@unbxd.com; _ga=GA1.2.44711214.1628009891; fs_cid=1.0; fs_uid=#BCTWS#5827173059792896:5552003249360896:::#89e388a9#/1687244231; intercom-device-id-uksd1f47=65dacc19-cc8f-4a38-9280-d7f1930483b8; ajs_user_id=sivanv@unbxd.com; ajs_anonymous_id=0d8cfecc-572a-4fb9-8771-7f8ebd343592; _gid=GA1.2.1181530657.1679289145; _un_sso_uid=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjpudWxsLCJleHBpcnkiOiIyMDIzLTAzLTI4IDA0OjE4OjMwIFVUQyIsImVtYWlsIjoic2l2YW52QHVuYnhkLmNvbSIsInJlZ2lvbnMiOnsidXMiOnsicmVmX3VzZXJfaWQiOjcwMjUxfSwic2ciOnsicmVmX3VzZXJfaWQiOjM4OX0sInVrIjp7InJlZl91c2VyX2lkIjoyNTl9LCJhdSI6eyJyZWZfdXNlcl9pZCI6MjYyfSwidXNfZ2NwIjp7InJlZl91c2VyX2lkIjoyNjZ9fX0.HjcmYCYF2_Jni6WGoGkMqdirdsjGZI15EiDlCNJRp50; _un_csrf=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNpdmFudkB1bmJ4ZC5jb20iLCJleHBpcnkiOiIyMDIzLTAzLTMxIDA0OjE4OjMwIFVUQyIsInVzZXJfaWQiOiI1ZDA5ZGUyOWIxZDI1MDAwMjNiOTc1MmIiLCJ0aW1lc3RhbXAiOiIyMDIzLTAzLTIxVDA0OjE4OjMwLjc4OVoifQ.afdTOWa8_r12If2N-9ZkK7Wd0ydjQRvm0vM280rMN_w; mp_4d8b093383efd0132a7afde806127f49_mixpanel=%7B%22distinct_id%22%3A%20%22186cf4aae0dfe8-07f65447b74e8f-1f525634-29b188-186cf4aae0e1c0d%22%2C%22%24device_id%22%3A%20%22186cf4aae0dfe8-07f65447b74e8f-1f525634-29b188-186cf4aae0e1c0d%22%2C%22mp_lib%22%3A%20%22Segment%3A%20web%22%2C%22%24initial_referrer%22%3A%20%22%24direct%22%2C%22%24initial_referring_domain%22%3A%20%22%24direct%22%7D; connect.sid=s%3ArfsVqhM8NaF8eDe-O0xZ-GCC-BxSNgO7.AeW2wRDrJUNK891rbKv15DAcFiiWaXHoqv5O0fWxj80; ajs_group_id=8542a739d0b398ee28a5b32c351e45e1; ajs_anonymous_id=0d8cfecc-572a-4fb9-8771-7f8ebd343592; intercom-session-uksd1f47=TkJHUVZxN3pPMVJySWk4RGtkWHhZcXltNFd5Y0JkRHhFMngwYUJrdGd1N2FjRngrUURPbEthanQ1MmpGdWMweC0takNYY29GaHhrd0lidTRsUWNEU3NXUT09--831f39c58176f7b8a7d643f6e9eb71ccc544b2a6; JSESSIONID=o5s6-GZRx9jj4DTZ430OHTjfwx3OftI7RsDWLOyh");
+    myHeaders.append("Cookie", "_ga=GA1.2.105997224.1672905386; intercom-device-id-uksd1f47=da87c413-df69-4600-a88f-20abbf241b07; ajs_anonymous_id=b30fef06-dbe2-454e-811e-fb9b802def31; ajs_group_id=3b08979a863b2e61d40ffd40d1fac851; ajs_anonymous_id=b30fef06-dbe2-454e-811e-fb9b802def31; _un_sso_uid=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjpudWxsLCJleHBpcnkiOiIyMDIzLTA0LTA2IDA1OjE4OjExIFVUQyIsImVtYWlsIjoibmlraGlsLm1pcmFuZGFAdW5ieGQuY29tIiwicmVnaW9ucyI6e319.RZAI6bjpl_RK1gQiThGdmPTG7QaozH1o4JDowzqRO_c; _un_csrf=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pa2hpbC5taXJhbmRhQHVuYnhkLmNvbSIsImV4cGlyeSI6IjIwMjMtMDQtMDkgMDU6MTg6MTEgVVRDIiwidXNlcl9pZCI6IjVlYzYwMWFkNDJjMmMwMDA3ZjQ1MTVjMiIsInRpbWVzdGFtcCI6IjIwMjMtMDMtMzBUMDU6MTg6MTEuMzAxWiJ9.XhzqsaF8dcPAez1nxL-igEC19zOf8ejBFtEz9pQdjKY; intercom-session-uksd1f47=TTBzcUFKL1k5QjdRV21UOFpLdk9IVVE3Ujk4a2hJemc0eVFieWtIL2hodFFyWTNUTExVenM4dzJmVkltLzNmaS0tallWZlI0RG8vemhFM2IweDd1LzJqdz09--e3ac07a812f5d225cd170c9d818fb773a51c8c04; JSESSIONID=Rkx48jzQhXWl9S9SqRJY91z_kRnzR0o-MVjCozkF; connect.sid=s%3A-ROQZBF9tU4JtL3Fq6seX5Ft7AVphFD9.8fTwDOVLRdWwhwYQ8FYHMZnNg0rD4%2Fb4wXhH5oEOtGA; JSESSIONID=mbKHZ9HvduCFMpxty4Y4f-jbttcgXp4rke5DMEDa");
+    myHeaders.append("DNT", "1");
     myHeaders.append("Origin", "https://pim.unbxd.io");
     myHeaders.append("Referer", "https://pim.unbxd.io/catalogueView/");
     myHeaders.append("Sec-Fetch-Dest", "empty");
@@ -161,10 +178,10 @@ window.onload = function() {
     });
 
     var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
     };
 
     fetch("https://pim.unbxd.io/peppercorn/api/v2/catalogueView/6391b1448f93e67002742cef", requestOptions)
@@ -233,10 +250,14 @@ window.onload = function() {
               fieldName.innerHTML += '<hr>';
               fieldName.innerHTML += "</form>";
               sidebar.appendChild(fieldName);
-      
+              if (arr2.length>0){
+                if(arr2[0] != ""){
+                var markedcheckbox1 = document.querySelectorAll('input[type="checkbox"]');
+                for (var checked of markedcheckbox1){
+                  checked.checked=true;
+                }}}
           }
-        })
+        
     })
-
-
-}
+  })
+  }

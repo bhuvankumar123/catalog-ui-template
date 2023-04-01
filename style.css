@@ -86,5 +86,11 @@ hr{
   height:1px;
 }
 
-
+footer{
+  background-color: #454545;
+  color:white;
+  height:100px;
+  justify-content: center;
+  align-items: center;
+}
 
