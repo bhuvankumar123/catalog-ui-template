@@ -250,12 +250,15 @@ window.onload = function() {
               fieldName.innerHTML += '<hr>';
               fieldName.innerHTML += "</form>";
               sidebar.appendChild(fieldName);
+            }
+              console.log(arr2)
+              //checking all the checkboxes displayed which are selected by the user after page reload
               if (arr2.length>0){
                 if(arr2[0] != ""){
                 var markedcheckbox1 = document.querySelectorAll('input[type="checkbox"]');
                 for (var checked of markedcheckbox1){
                   checked.checked=true;
-                }}}
+                }}
           }
         
     })
