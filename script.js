@@ -11,6 +11,9 @@ function search(){
     let searchQuery = document.getElementById("srcq").value;
     window.location.href=`PLP.html?q=${searchQuery}`;
   }
+function reset(){
+    window.location.href='PLP.html';
+}
 //function to implement filtering based on facets selected by the user
 function checkbox(){
   var dict = {}
@@ -209,6 +212,7 @@ window.onload = function() {
             sidebar=document.getElementsByClassName('sidebar')[0];
             facets = data["facets"]
             keys=Object.keys(facets)
+            sidebar.innerHTML+='<hr>'
             for (ind in keys) {
               var fieldName = document.createElement("div");
       

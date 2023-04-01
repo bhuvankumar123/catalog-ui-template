@@ -7,25 +7,24 @@
     overflow: auto;
     display:block;
     position:absolute;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
     text-align: center;
+    margin-top: 1rem;
   }
 body{
-  background-color:whitesmoke;
+  background-color:white;
 }
 container{
   display: flex;
 }
 nav{
-  background-color:white;
+  background-color:#454545;
   position:fixed;
   overflow: auto; 
   display:block;
   top:0;
   width:100%;
-  height:75px;
-  border-bottom: 1px solid black;
+  height:100px;
+  border-bottom: 1px solid white;
 }
 /* grid formatting */
 #forma{
@@ -34,14 +33,15 @@ nav{
 }
 /* Individual Product Cards */
 .card{
-    margin-top: 8rem;
-    margin-bottom: 8rem;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
     margin-left: 1rem;
     margin-right: 1rem;
     border: 3px solid black;
-    border-radius:5px;
+    border-radius:8px;
     transition: all .5s ease;
-    background-color: whitesmoke;
+    color:white;
+    background-color: #454545;
 }
 /* Adding shadows for the product cards and the button*/
 .card:hover{
@@ -59,7 +59,8 @@ button:hover{
 #srcq{
   width:150px;
   float:right;
-  margin-left: 67rem;
+  border-radius: 20px;
+  border: 3px solid white;
 }
 /*formatting the pagination elements*/
 #pagi{
@@ -79,5 +80,11 @@ button:hover{
   margin-left:1rem;
   background-color: black;
 }
+
+hr{
+  background-color: #454545;
+  height:1px;
+}
+
 
 
