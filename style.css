@@ -13,9 +13,7 @@
 body{
   background-color:white;
 }
-container{
-  display: flex;
-}
+
 nav{
   background-color:#454545;
   position:fixed;

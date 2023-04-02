@@ -197,6 +197,7 @@ window.onload = function() {
                                     <div class="card-body">
                                     <h6 class="card-title">`+products[i]["productName"]+`</h6>
                                     <p>UniqueId:`+products[i]["uniqueId"]+`</p>
+                                    <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-dark stretched-link">View Product</a>
                   </div>
                 </div>
               </div>`
