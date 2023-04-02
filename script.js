@@ -136,7 +136,7 @@ window.onload = function() {
     if (arr2[0] == "null"){
       arr2.pop()
     }
-    console.log(arr2)
+    //console.log(arr2)
     // Prechecking all the checkboxes which the user clicked so the user is aware of the filters applied
     /*if (arr2 != []){
       console.log('hi')
@@ -176,6 +176,24 @@ window.onload = function() {
     "facet_filters": arr2,
     "search_str": prod_query
     });
+    var requestOption = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    
+    fetch("https://pim.unbxd.io/api/v1/catalogueConfig/6391b1448f93e67002742cef", requestOption)
+    .then(response => {
+      response.json().then(data=>{
+          //console.log(data["data"]["properties"])
+          data=data["data"]["properties"]
+          var dict1 = {};
+          for (let i=0;i<data.length;i+=1){
+              dict1[data[i]["name"]]=data[i]["field_id"]
+          }
+          //console.log(dict1)
+      })
+    })
 
     var requestOptions = {
       method: 'POST',
@@ -252,7 +270,7 @@ window.onload = function() {
               fieldName.innerHTML += "</form>";
               sidebar.appendChild(fieldName);
             }
-              console.log(arr2)
+              //console.log(arr2)
               //checking all the checkboxes displayed which are selected by the user after page reload
               if (arr2.length>0){
                 if(arr2[0] != ""){

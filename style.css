@@ -92,3 +92,17 @@ footer{
   align-items: center;
 }
 
+#info{
+  margin-left:2rem;
+  margin-right:2rem;
+  background-color: #454545;
+  color:white;
+}
+#infotext{
+  margin-left:1rem;
+  margin-right:1rem;
+}
+
+h1{
+  text-align:center;
+}
