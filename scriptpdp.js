@@ -52,13 +52,18 @@ window.onload = function(){
       //Creating a mapping dictionary between the field_id and the names
       fetch("https://pim.unbxd.io/api/v1/catalogueConfig/6391b1448f93e67002742cef", requestOption)
       .then(response => {
-        response.json().then(data1=>{
+        response.json().then(data=>{
             //console.log(data["data"]["properties"])
-            data1=data1["data"]["properties"]
+            data1=data["data"]["properties"]
             var dict1 = {};
             for (let i=0;i<data1.length;i+=1){
                 dict1[data1[i]["field_id"]]=data1[i]["name"]
             }
+            img=data["data"]["catalog_logo_url"]
+            logo=document.getElementById("logo")
+            logo.innerHTML+=`<a class="navbar-brand" href="PLP.html">
+            <img src="`+img+`" alt="Logo" id="logoimg" style="width:100px;">
+          </a>`
             //console.log(dict1)
             var requestOptions = {
                 method: 'POST',

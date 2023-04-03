@@ -186,11 +186,16 @@ window.onload = function() {
     .then(response => {
       response.json().then(data=>{
           //console.log(data["data"]["properties"])
-          data=data["data"]["properties"]
+          data1=data["data"]["properties"]
           var dict1 = {};
-          for (let i=0;i<data.length;i+=1){
-              dict1[data[i]["name"]]=data[i]["field_id"]
+          for (let i=0;i<data1.length;i+=1){
+              dict1[data1[i]["name"]]=data1[i]["field_id"]
           }
+          img=data["data"]["catalog_logo_url"]
+            logo=document.getElementById("logo")
+            logo.innerHTML+=`<a class="navbar-brand" href="PLP.html">
+            <img src="`+img+`" alt="Logo" id="logoimg" style="width:100px;">
+          </a>`
           //console.log(dict1)
       })
     })
