@@ -57,8 +57,15 @@ window.onload = function(){
             data1=data["data"]["properties"]
             var dict1 = {};
             for (let i=0;i<data1.length;i+=1){
-                dict1[data1[i]["field_id"]]=data1[i]["name"]
+                if(!(data1[i]["group"] in dict1)){
+                    dict1[data1[i]["group"]]=[]
+                    dict1[data1[i]["group"]].push([data1[i]["field_id"],data1[i]["name"]])
+                }
+                else{
+                    dict1[data1[i]["group"]].push([data1[i]["field_id"],data1[i]["name"]])
+                }
             }
+            //console.log(dict1)
             img=data["data"]["catalog_logo_url"]
             logo=document.getElementById("logo")
             logo.innerHTML+=`<a class="navbar-brand" href="PLP.html">
@@ -92,26 +99,43 @@ window.onload = function(){
                         </div>`
 
                         let info = document.getElementById("infotext");
-                        /*let keys = Object.keys(dict1)
-                        console.log(dict1[keys[0]])
-                        console.log(data[dict1[keys[0]]])
-                        for (let j=0;j<keys.length;j+=1){
+                        let keys = Object.keys(dict1)
+                        console.log(dict1["Variation Options"])
+                        //console.log(data[dict1[keys[0]]])
+                        /*for (let j=0;j<keys.length;j+=1){
                             console.log(keys[j],data[dict1[keys[j]]])
                             info.innerHTML+=`<p>`+keys[j]`:   `+data[dict1[keys[j]]]+`</p>`;
                         }*/
                         //Displaying Additional Product Information
                         info.innerHTML+='<hr>'
-                        info.innerHTML+='<h1>Additional Information</h1>'
-                        let keys = Object.keys(data)
+                        info.innerHTML+='<h1><u>Additional Information<u></h1>'
+                        info.innerHTML+='<br>'
+                        console.log(keys.length)
+                        //let keys = Object.keys(data)
                         for (let j=0;j<keys.length;j+=1){
-                            if(keys[j].includes("field")){
+                            /*if(keys[j].includes("field")){
                             info.innerHTML+=`<p><b><u>`+dict1[keys[j]]+`</b></u>:`+data[keys[j]];
                             }
                             else{
                             info.innerHTML+=`<p><b><u>`+keys[j]+`</b></u>:`+data[keys[j]];
+                            }*/
+                            values=dict1[keys[j]]
+                            const values1=[]
+                            for(let z=0;z<values.length;z+=1){
+                                if (data[values[z][0]]!==undefined){
+                                    values1.push(values[z])
+                                }
                             }
+                            if(values1.length>0){
+                                info.innerHTML+='<h3>'+keys[j]+'</h3>'
+                                info.innerHTML+='<br>'
+                            }
+                            console.log(values1)
+                            for(let i=0;i<values1.length;i+=1){
+                                    info.innerHTML+=`<p><b><u>`+values1[i][1]+`</b></u>:`+data[values1[i][0]];
+                                }
                         }
-                        info.innerHTML+='<hr>'
+                        info.innerHTML+='<hr>';
                     })
                 })   
         })
