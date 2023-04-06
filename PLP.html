@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="body">
   
   <nav class="navbar d-flex justify-content-between" height="100px;">
     <button id="reset" class="btn btn-light" tyoe="text" onclick=reset()>Reset</button>
@@ -17,7 +17,7 @@
     <!--<a class="navbar-brand" href="PLP.html">
       <img src="download.svg" alt="Logo" style="width:100px;">
     </a>-->
-    <input id="srcq" class="form-control mr-sm-2" type="search" placeholder="Search" onkeyup=processChanges()>
+    <input id="searchquery" class="form-control mr-sm-2 searchquery" type="search" placeholder="Search" onkeyup=processChanges()>
   
   </nav>
   <!-- Container for all the content of the PLP page -->
@@ -27,12 +27,12 @@
   
     </div>
     <!-- Grid for displaying the products as cards-->
-    <div class=" row row-cols-1 row-cols-md-4 mx-center d-flex" id="forma">
+    <div class=" row row-cols-1 row-cols-md-4 mx-center d-flex forma" id="forma">
   
     </div>
   </div>
   <!-- Pagination element-->
-  <div id="pagi">
+  <div class="pagi">
   </div>
   <script type="text/javascript" src="js/script.js"></script>
 </body>

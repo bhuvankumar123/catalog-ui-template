@@ -3,25 +3,26 @@ function debounce(func,timeout=3000){
     let timer;
     return (args) => {
       clearTimeout(timer);
-      timer = setTimeout(() => { func.apply(this,args);}, timeout);
+      timer = setTimeout(() => { func.apply(this,args);
+                        }, timeout);
     };
   }
   //function to implement search
   function search(){
       let searchQuery = document.getElementById("srcq").value;
-      window.location.href=`PLP.html?q=${searchQuery}`;
+      window.location.href = `PLP.html?q=${searchQuery}`;
     }
   //function for user to reset the filters and the search bar  
   function reset(){
-      window.location.href='PLP.html';
+      window.location.href = 'PLP.html';
   }
 const processChanges = debounce(() => search());
 window.onload = function(){
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    let prodid = urlParams.get('ProductId')
-    let prod_query = urlParams.get('q');
-    document.getElementById('srcq').value = prod_query;
+    let prodId = urlParams.get('ProductId')
+    let prodQuery = urlParams.get('q');
+    document.getElementById('searchquery').value = prodQuery;
     var myHeaders = new Headers();
     myHeaders.append("Accept", "*/*");
     myHeaders.append("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8");
@@ -41,7 +42,7 @@ window.onload = function(){
 
     var raw = JSON.stringify({
     "catalogue_id": "6391b1448f93e67002742cef",
-    "unique_id": prodid
+    "unique_id": prodId
     });
 
     var requestOption = {
@@ -54,22 +55,22 @@ window.onload = function(){
       .then(response => {
         response.json().then(data=>{
             //console.log(data["data"]["properties"])
-            data1=data["data"]["properties"]
-            var dict1 = {};
-            for (let i=0;i<data1.length;i+=1){
-                if(!(data1[i]["group"] in dict1)){
-                    dict1[data1[i]["group"]]=[]
-                    dict1[data1[i]["group"]].push([data1[i]["field_id"],data1[i]["name"]])
+            propertyData = data["data"]["properties"]
+            var propertyMapping = {};
+            for (let i = 0;i< propertyData.length;i += 1){
+                if(!(propertyData[i]["group"] in propertyMapping)){
+                    propertyMapping[propertyData[i]["group"]] = []
+                    propertyMapping[propertyData[i]["group"]].push([propertyData[i]["field_id"],propertyData[i]["name"]])
                 }
                 else{
-                    dict1[data1[i]["group"]].push([data1[i]["field_id"],data1[i]["name"]])
+                    propertyMapping[propertyData[i]["group"]].push([propertyData[i]["field_id"],propertyData[i]["name"]])
                 }
             }
             //console.log(dict1)
-            img=data["data"]["catalog_logo_url"]
-            logo=document.getElementById("logo")
-            logo.innerHTML+=`<a class="navbar-brand" href="PLP.html">
-            <img src="`+img+`" alt="Logo" id="logoimg" style="width:100px;">
+            img = data["data"]["catalog_logo_url"]
+            logo = document.getElementById("logo")
+            logo.innerHTML += `<a class="navbar-brand logoimg" href="PLP.html">
+            <img src="` + img + `" alt="Logo" class="logoimg">
           </a>`
             //console.log(dict1)
             var requestOptions = {
@@ -82,62 +83,69 @@ window.onload = function(){
                 fetch("https://pim.unbxd.io/peppercorn/api/v2/catalogueProduct", requestOptions)
                 .then(response => {
                     response.json().then(data=>{
-                        data=data["data"]["response"]["products"][0];
-                        let prodcard = document.getElementById("containerbody");
-                        prodcard.innerHTML+=`<div class="col-sm-6>
+                        productData = data["data"]["response"]["products"][0];
+                        let prodCard = document.getElementById("containerbody");
+                        prodCard.innerHTML += `<div class="col-sm-6>
                         <div class="card" id="prodi">
                         <div class="row card-body">
-                        <img src="`+data["productImage"]+`" alt="..." class="col-sm-6">
+                        <img src="`+productData["productImage"]+`" alt="..." class="col-sm-6">
                         <div class="col-sm-6">
-                        <h1>`+data["productName"]+`</h1>
-                        <hr>
-                        <h2>$`+data["field_390"]+`</h2>
+                        <h1 class="centeralign">`+productData["productName"]+`</h1>
+                        <hr class="horizontalbreak1">
+                        <h2>$`+productData["field_390"]+`</h2>
                         <br>
-                        <p>`+data["field_476"]+`</p>
+                        <p>`+productData["field_476"]+`</p>
                         </div>
                         </div>
                         </div>`
 
-                        let info = document.getElementById("infotext");
-                        let keys = Object.keys(dict1)
-                        console.log(dict1["Variation Options"])
+                        let info = document.getElementsByClassName("infotext")[0];
+                        let keys = Object.keys(propertyMapping)
+                        //console.log(dict1["Variation Options"])
                         //console.log(data[dict1[keys[0]]])
                         /*for (let j=0;j<keys.length;j+=1){
                             console.log(keys[j],data[dict1[keys[j]]])
                             info.innerHTML+=`<p>`+keys[j]`:   `+data[dict1[keys[j]]]+`</p>`;
                         }*/
                         //Displaying Additional Product Information
-                        info.innerHTML+='<hr>'
-                        info.innerHTML+='<h1><u>Additional Information<u></h1>'
-                        info.innerHTML+='<br>'
-                        console.log(keys.length)
+                        info.innerHTML += '<hr class="horizontalbreak1">'
+                        info.innerHTML += '<h1 class="centeralign"><u>Additional Information<u></h1>'
+                        info.innerHTML += '<br>'
+                        //console.log(keys.length)
                         //let keys = Object.keys(data)
-                        for (let j=0;j<keys.length;j+=1){
+                        for (let j = 0;j<keys.length;j += 1){
                             /*if(keys[j].includes("field")){
                             info.innerHTML+=`<p><b><u>`+dict1[keys[j]]+`</b></u>:`+data[keys[j]];
                             }
                             else{
                             info.innerHTML+=`<p><b><u>`+keys[j]+`</b></u>:`+data[keys[j]];
                             }*/
-                            values=dict1[keys[j]]
-                            const values1=[]
-                            for(let z=0;z<values.length;z+=1){
-                                if (data[values[z][0]]!==undefined){
-                                    values1.push(values[z])
+                            values = propertyMapping[keys[j]]
+                            const definedValues = []
+                            for(let z = 0;z<values.length;z += 1){
+                                if (productData[values[z][0]] !== undefined){
+                                    definedValues.push(values[z])
                                 }
                             }
-                            if(values1.length>0){
-                                info.innerHTML+='<h3>'+keys[j]+'</h3>'
-                                info.innerHTML+='<br>'
+                            if(definedValues.length > 0){
+                                if (keys[j] ==='Properties without any group'){
+                                    info.innerHTML += '<h3 class="centeralign">Extra Information</h3>'
+                                    info.innerHTML += '<br>'
+                                }
+                                else{
+                                    info.innerHTML += '<h3 class="centeralign">' + keys[j] + '</h3>'
+                                    info.innerHTML += '<br>'
+                                }
                             }
-                            console.log(values1)
-                            for(let i=0;i<values1.length;i+=1){
-                                    info.innerHTML+=`<p><b><u>`+values1[i][1]+`</b></u>:`+data[values1[i][0]];
+                            //console.log(values1)
+                            for(let i = 0;i<definedValues.length;i += 1){
+                                    info.innerHTML += `<p><b><u>` + definedValues[i][1] + `</b></u>:` + productData[definedValues[i][0]];
                                 }
                         }
-                        info.innerHTML+='<hr>';
+                        info.innerHTML += '<hr class="horizontalbreak1">';
                     })
                 })   
         })
+
       })
-}
+    }

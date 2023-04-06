@@ -1,45 +1,45 @@
 .sidebar {
     margin: 0;
     padding: 0;
-    background-color:gradient(whitesmoke,white);
-    height: 100%;
+    background-color:#ECFFDC;
+    height:100%;
     width: 15%;
     overflow: auto;
     display:block;
     position:absolute;
     text-align: center;
-    margin-top: 1rem;
+    border-right:2px solid black;
   }
-body{
-  background-color:white;
+.body{
+  background-color:#93C572;
 }
 
 nav{
-  background-color:#454545;
+  /*background-color: #009E60;*/
+  background-color: #454545;
   position:fixed;
   overflow: auto; 
   display:block;
   top:0;
   width:100%;
   height:100px;
-  border-bottom: 1px solid white;
+  border-bottom: 2px solid black;
 }
 /* grid formatting */
-#forma{
+.forma{
   margin-left: 15rem;
   margin-right: 3rem;
 }
 /* Individual Product Cards */
 .card{
-    margin-top: 2rem;
-    margin-bottom: 5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 5px;
+    margin-right: 5px;
     border: 3px solid black;
     border-radius:8px;
     transition: all .5s ease;
-    color:white;
-    background-color: #454545;
+    background-color: #ECFFDC;
 }
 /* Adding shadows for the product cards and the button*/
 .card:hover{
@@ -54,14 +54,14 @@ button:hover{
   transition: all .4s ease; 
 }
 /*formating the search bar*/
-#srcq{
+.searchquery{
   width:150px;
   float:right;
   border-radius: 20px;
   border: 3px solid white;
 }
 /*formatting the pagination elements*/
-#pagi{
+.pagi{
   justify-content: center;
   align-items: center;
   display:flex;
@@ -69,48 +69,37 @@ button:hover{
   margin-left:15rem;
 }
 
-#prev{
+.prev{
   margin-right:1rem;
-  background-color: black;
+  background-color:white;
 }
 
-#next{
+.next{
   margin-left:1rem;
-  background-color: black;
+  background-color:white;
 }
 
-hr{
+.horizontalbreak1{
   background-color: #454545;
   height:1px;
 }
 
-footer{
-  background-color: #454545;
-  color:white;
-  height:100px;
-  justify-content: center;
-  align-items: center;
-}
-
-#info{
+.info{
   margin-left:2rem;
   margin-right:2rem;
   background-color: #454545;
   color:white;
 }
-#infotext{
+.infotext{
   margin-left:1rem;
   margin-right:1rem;
 }
 
-h1{
-  text-align:center;
-}
-h3{
+.centeralign{
   text-align:center;
 }
 
-#logoimg{
+.logoimg{
   width:100px;
   height:75px;
 }
