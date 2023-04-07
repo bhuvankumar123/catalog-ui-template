@@ -1,7 +1,7 @@
 .sidebar {
     margin: 0;
     padding: 0;
-    background-color:#ECFFDC;
+    background-color:#faf0e6;
     height:100%;
     width: 15%;
     overflow: auto;
@@ -11,11 +11,11 @@
     border-right:2px solid black;
   }
 .body{
-  background-color:#93C572;
+  background-color:#008080;
 }
 
 nav{
-  /*background-color: #009E60;*/
+  /*background-color: #009E60; - Dark Green*/
   background-color: #454545;
   position:fixed;
   overflow: auto; 
@@ -39,7 +39,7 @@ nav{
     border: 3px solid black;
     border-radius:8px;
     transition: all .5s ease;
-    background-color: #ECFFDC;
+    background-color: #faf0e6;
 }
 /* Adding shadows for the product cards and the button*/
 .card:hover{
@@ -53,6 +53,7 @@ button:hover{
   transform: translate3d(0,-1px,0) scale(1.07);
   transition: all .4s ease; 
 }
+
 /*formating the search bar*/
 .searchquery{
   width:150px;
@@ -102,4 +103,13 @@ button:hover{
 .logoimg{
   width:100px;
   height:75px;
+}
+
+.logoimg1{
+  width:500px;
+  height:700px;
+}
+
+.containerbody{
+  color:white;
 }

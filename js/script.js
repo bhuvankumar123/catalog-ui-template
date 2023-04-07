@@ -15,21 +15,21 @@ function search(){
 function reset(){
     window.location.href = 'PLP.html';
 }
-//function to implement filtering based on facets selected by the user
 function checkbox(){
   var dict = {}
-  var markedCheckBox = document.querySelectorAll('input[type="checkbox"]:checked');
+  var markedCheckBox = document.querySelectorAll('input[type="checkbox"]:checked.filter');
+  //console.log(markedCheckBox)
   for (let i=0;i<markedCheckBox.length;i+=1){
-    if (!(markedCheckBox[i].className in dict)){
-      dict[markedCheckBox[i].className] = [];
-      dict[markedCheckBox[i].className].push(markedCheckBox[i].id)
+    if (!(markedCheckBox[i].name in dict)){
+      dict[markedCheckBox[i].name] = [];
+      dict[markedCheckBox[i].name].push(markedCheckBox[i].id)
     }
-    else if (markedCheckBox[i].className in dict){
-      dict[markedCheckBox[i].className].push(markedCheckBox[i].id);
+    else if (markedCheckBox[i].name in dict){
+      dict[markedCheckBox[i].name].push(markedCheckBox[i].id);
     }
   }
   //console.log(dict)
-  var keys = Object.keys(dict);
+  var keys = Object.keys(dict) || [];
   var facetQuery = [];
   /* Logic for the First PLP curl
   for (let i=0; i<keys.length; i+=1){
@@ -84,6 +84,7 @@ function checkbox(){
   //console.log(facetquery)
   window.location.href = `PLP.html?facets=${facetQuery}`
 }
+//function to implement filtering based on facets selected by the user
 // calling search and filtering functions with debouncing
 const processChanges = debounce(() => search());
 const check = debounce(() => checkbox());
@@ -92,7 +93,7 @@ function prev(){
   const queryString = new URL(window.location.href)
   pageNumber = queryString.searchParams.get('page')
   queryString.searchParams.delete('page')
-          if (pageNumber!=null){
+          if (pageNumber != null){
             queryString.searchParams.delete('page')
             var pageValue = parseInt(pageNumber) - 1
             queryString.searchParams.append('page',pageValue.toString())
@@ -103,18 +104,18 @@ function prev(){
 function next(){
   const queryString = new URL(window.location.href)
           pageNumber = queryString.searchParams.get('page')
-          if(!pageNumber){
+          if(pageNumber==null){
             pageValue=2  
             queryString.searchParams.append('page',pageValue.toString())
             window.location.href = queryString
             }
-          else {
+          else if(!(pageNumber == null)){
             queryString.searchParams.delete('page')
-            var pageValue = parseInt(pag) + 1
+            var pageValue = parseInt(pageNumber) + 1
             queryString.searchParams.append('page',pageValue.toString())
             window.location.href=queryString
+          }
         }
-} 
 window.onload = function() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -129,6 +130,19 @@ window.onload = function() {
     }
     const facetArray = decoded.split(",")
     const decodedFacetArray = [];
+    function safeTraverse(obj, paths = []) {
+      let val = obj;
+      let idx = 0;
+
+      while (idx < paths.length) {
+          if (!val) {
+              return null;
+          }
+          val = val[paths[idx]];
+          idx++;
+      }
+      return val === 0 ? '0' : val;
+    }
     // changing the facets query to match the syntax required to pass it to the fetch command
     for (let i = 0;i < facetArray.length;i += 1){
       let newq = facetArray[i].replaceAll('\\\"','\"');
@@ -162,7 +176,7 @@ window.onload = function() {
       }*/
     // Displaying the search query in the search bar after page reload
     document.getElementById('searchquery').value = prodQuery;
-    if (!pageNo){
+    if (pageNo===null){
       pageNo = 1
     }
     //calling the fetch function with the headers to get the catalog products
@@ -200,15 +214,17 @@ window.onload = function() {
     .then(response => {
       response.json().then(data=>{
           //console.log(data["data"]["properties"])
-          propertyData = data["data"]["properties"] || [];
+          //propertyData = data["data"]["properties"] || [];
+          propertyData=safeTraverse(data,["data","properties"])
           var propertyMapping = {};
           for (let i = 0;i < propertyData.length;i += 1){
               propertyMapping[propertyData[i]["name"]] = propertyData[i]["field_id"]
           }
-          imgUrl = data["data"]["catalog_logo_url"]
+          //imgUrl = data["data"]["catalog_logo_url"]
+          imgurl=safeTraverse(data,["data","catalog_logo_url"])
             logo = document.getElementById("logo")
             logo.innerHTML += `<a class="navbar-brand" href="PLP.html">
-            <img class="logoimg" src="` + imgUrl + `" alt="Logo">
+            <img class="logoimg" src="` + imgurl + `" alt="Logo">
           </a>`
           //console.log(dict1)
       })
@@ -226,14 +242,15 @@ window.onload = function() {
         response.json().then(data=>{
           // displaying the product elements as the form of cards in a bootstrap grid
             let prodCard = document.getElementById("forma")
-            products = data["response"]["products"] || [];
+            //products = data["response"]["products"] || [];
+            products=safeTraverse(data,["response","products"])
             for (let i = 0; i < products.length; i++) {
                 prodCard.innerHTML += `<div class="col md-4 d-flex">
                                     <div class="card">
                                     <img class="card-img-top" src="`+products[i]["productImage"]+`" alt="...">
                                     <div class="card-body">
                                     <h6 class="card-title">`+products[i]["productName"]+`</h6>
-                                    <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-dark stretched-link">View Product</a>
+                                    <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-info stretched-link">View Product</a>
                   </div>
                 </div>
               </div>`
@@ -241,7 +258,8 @@ window.onload = function() {
             }
             // calculating the total number of pages based on the total number of products and the count per page and 
             // displaying them 
-            numberOfProd = data["response"]["numberOfProducts"];
+            //numberOfProd = data["response"]["numberOfProducts"];
+            numberOfProd=safeTraverse(data,["response","numberOfProducts"])
             pagi = document.getElementsByClassName('pagi')[0];
             if(Number.isInteger(numberOfProd/count)===true){
               dataPages = Math.trunc((numberOfProd/count))
@@ -255,17 +273,17 @@ window.onload = function() {
             Page `+pageNo+` Of `+dataPages+`
             </div>
             <button id="next" class="btn btn-light next" tyoe="text" onclick=next()>Next</button>`;
-            if (pageNo === 1){
+            if (pageNo == 1){
               document.getElementById('prev').disabled = true;
             }
-            if (pageNo === dataPages){
+            if (pageNo == dataPages){
               document.getElementById('next').disabled = true;
             }
             }
             // Displaying the filters and their options in the sidebar
             sideBar = document.getElementsByClassName('sidebar')[0];
-            facets = data["facets"]
-            keys = Object.keys(facets)
+            facets = data["facets"] || {};
+            keys = Object.keys(facets) || [];
             sideBar.innerHTML += '<hr class="horizontalbreak1">'
             for (ind in keys) {
               var fieldName = document.createElement("div");
@@ -279,7 +297,7 @@ window.onload = function() {
               for (let ind2 = 0; ind2 < facets[keys[ind]]["values"].length; ind2 += 2) {
       
                   fieldName.innerHTML += `
-                      <input type="checkbox" class="`+facets[keys[ind]]["fieldId"]+`" id="`+facets[keys[ind]]["values"][ind2]+`" onchange=check()>
+                      <input type="checkbox" class="filter" name="`+facets[keys[ind]]["fieldId"]+`" id="`+facets[keys[ind]]["values"][ind2]+`" onchange=check()>
                       <label for="categorylabel"> ${facets[keys[ind]]["values"][ind2]}(${(facets[keys[ind]]["values"][ind2+1])})</label><br>
                   `
       
@@ -292,7 +310,7 @@ window.onload = function() {
               //checking all the checkboxes displayed which are selected by the user after page reload
               if (decodedFacetArray.length > 0){
                 if(decodedFacetArray[0] !== ""){
-                var markedCheckBox1 = document.querySelectorAll('input[type="checkbox"]');
+                var markedCheckBox1 = document.querySelectorAll('input[type="checkbox"].filter');
                 for (var checked of markedCheckBox1){
                   checked.checked=true;
                 }}

@@ -9,7 +9,7 @@ function debounce(func,timeout=3000){
   }
   //function to implement search
   function search(){
-      let searchQuery = document.getElementById("srcq").value;
+      let searchQuery = document.getElementById("searchquery").value;
       window.location.href = `PLP.html?q=${searchQuery}`;
     }
   //function for user to reset the filters and the search bar  
@@ -18,10 +18,23 @@ function debounce(func,timeout=3000){
   }
 const processChanges = debounce(() => search());
 window.onload = function(){
+    function safeTraverse(obj, paths = []) {
+        let val = obj;
+        let idx = 0;
+
+        while (idx < paths.length) {
+            if (!val) {
+                return null;
+            }
+            val = val[paths[idx]];
+            idx++;
+        }
+        return val === 0 ? '0' : val;
+    }
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    let prodId = urlParams.get('ProductId')
-    let prodQuery = urlParams.get('q');
+    let prodId = urlParams.get('ProductId')  || "";
+    let prodQuery = urlParams.get('q') || "";
     document.getElementById('searchquery').value = prodQuery;
     var myHeaders = new Headers();
     myHeaders.append("Accept", "*/*");
@@ -55,7 +68,8 @@ window.onload = function(){
       .then(response => {
         response.json().then(data=>{
             //console.log(data["data"]["properties"])
-            propertyData = data["data"]["properties"]
+            //propertyData = data["data"]["properties"]
+            propertyData = safeTraverse(data,["data","properties"])
             var propertyMapping = {};
             for (let i = 0;i< propertyData.length;i += 1){
                 if(!(propertyData[i]["group"] in propertyMapping)){
@@ -67,7 +81,8 @@ window.onload = function(){
                 }
             }
             //console.log(dict1)
-            img = data["data"]["catalog_logo_url"]
+            //img = data["data"]["catalog_logo_url"]
+            img = safeTraverse(data,["data","catalog_logo_url"])
             logo = document.getElementById("logo")
             logo.innerHTML += `<a class="navbar-brand logoimg" href="PLP.html">
             <img src="` + img + `" alt="Logo" class="logoimg">
@@ -83,24 +98,31 @@ window.onload = function(){
                 fetch("https://pim.unbxd.io/peppercorn/api/v2/catalogueProduct", requestOptions)
                 .then(response => {
                     response.json().then(data=>{
-                        productData = data["data"]["response"]["products"][0];
+                        //productData = data["data"]["response"]["products"][0];
+                        productData = safeTraverse(data,["data","response","products","0"])
+                        //console.log(productData)
                         let prodCard = document.getElementById("containerbody");
                         prodCard.innerHTML += `<div class="col-sm-6>
                         <div class="card" id="prodi">
                         <div class="row card-body">
-                        <img src="`+productData["productImage"]+`" alt="..." class="col-sm-6">
+                        <img src="`+productData["productImage"]+`" alt="..." class="col-sm-6 logoimg1">
                         <div class="col-sm-6">
                         <h1 class="centeralign">`+productData["productName"]+`</h1>
                         <hr class="horizontalbreak1">
                         <h2>$`+productData["field_390"]+`</h2>
                         <br>
-                        <p>`+productData["field_476"]+`</p>
+                        <h4><u>SKU</u>:`+productData["field_337"]+`</h3>
+                        <br>
+                        <h4><u>Collection</u>:`+productData["field_473"]+`</h3>
+                        <br>
+                        <h4><u>Taxable</u>:`+productData["field_188"]+`</h3>
+                        <br>
                         </div>
                         </div>
                         </div>`
 
                         let info = document.getElementsByClassName("infotext")[0];
-                        let keys = Object.keys(propertyMapping)
+                        let keys = Object.keys(propertyMapping) || [];
                         //console.log(dict1["Variation Options"])
                         //console.log(data[dict1[keys[0]]])
                         /*for (let j=0;j<keys.length;j+=1){
@@ -120,7 +142,7 @@ window.onload = function(){
                             else{
                             info.innerHTML+=`<p><b><u>`+keys[j]+`</b></u>:`+data[keys[j]];
                             }*/
-                            values = propertyMapping[keys[j]]
+                            values = propertyMapping[keys[j]] || []
                             const definedValues = []
                             for(let z = 0;z<values.length;z += 1){
                                 if (productData[values[z][0]] !== undefined){
@@ -136,11 +158,11 @@ window.onload = function(){
                                     info.innerHTML += '<h3 class="centeralign">' + keys[j] + '</h3>'
                                     info.innerHTML += '<br>'
                                 }
-                            }
                             //console.log(values1)
-                            for(let i = 0;i<definedValues.length;i += 1){
-                                    info.innerHTML += `<p><b><u>` + definedValues[i][1] + `</b></u>:` + productData[definedValues[i][0]];
-                                }
+                                for(let i = 0;i<definedValues.length;i += 1){
+                                        info.innerHTML += `<p><b><u>` + definedValues[i][1] + `</b></u>:` + productData[definedValues[i][0]];
+                                    }
+                            }
                         }
                         info.innerHTML += '<hr class="horizontalbreak1">';
                     })
