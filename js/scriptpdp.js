@@ -35,7 +35,7 @@ window.onload = function(){
     const urlParams = new URLSearchParams(queryString);
     let prodId = urlParams.get('ProductId')  || "";
     let prodQuery = urlParams.get('q') || "";
-    document.getElementById('searchquery').value = prodQuery;
+    //document.getElementById('searchquery').value = prodQuery;
     var myHeaders = new Headers();
     myHeaders.append("Accept", "*/*");
     myHeaders.append("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8");
@@ -106,7 +106,7 @@ window.onload = function(){
                         <div class="card" id="prodi">
                         <div class="row card-body">
                         <img src="`+productData["productImage"]+`" alt="..." class="col-sm-6 logoimg1">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 basicdetails">
                         <h1 class="centeralign">`+productData["productName"]+`</h1>
                         <hr class="horizontalbreak1">
                         <h2>$`+productData["field_390"]+`</h2>
@@ -133,6 +133,7 @@ window.onload = function(){
                         info.innerHTML += '<hr class="horizontalbreak1">'
                         info.innerHTML += '<h1 class="centeralign"><u>Additional Information<u></h1>'
                         info.innerHTML += '<br>'
+                        info.innerHTML += '<hr class="horizontalbreak1">'
                         //console.log(keys.length)
                         //let keys = Object.keys(data)
                         for (let j = 0;j<keys.length;j += 1){
@@ -151,17 +152,18 @@ window.onload = function(){
                             }
                             if(definedValues.length > 0){
                                 if (keys[j] ==='Properties without any group'){
-                                    info.innerHTML += '<h3 class="centeralign">Extra Information</h3>'
+                                    info.innerHTML += '<u><h3 class="centeralign">Extra Information</h3></u>'
                                     info.innerHTML += '<br>'
                                 }
                                 else{
-                                    info.innerHTML += '<h3 class="centeralign">' + keys[j] + '</h3>'
+                                    info.innerHTML += '<u><h3 class="centeralign">' + keys[j] + '</h3></u>'
                                     info.innerHTML += '<br>'
                                 }
                             //console.log(values1)
                                 for(let i = 0;i<definedValues.length;i += 1){
                                         info.innerHTML += `<p><b><u>` + definedValues[i][1] + `</b></u>:` + productData[definedValues[i][0]];
                                     }
+                                info.innerHTML += '<hr class="horizontalbreak1">'
                             }
                         }
                         info.innerHTML += '<hr class="horizontalbreak1">';

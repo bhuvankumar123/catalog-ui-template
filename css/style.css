@@ -8,8 +8,9 @@
     overflow-y: auto;
     /* display:block; */
     position:fixed;
-    text-align: center;
+    text-align: left;
     border-right:2px solid black;
+    padding-bottom: 50px;
   }
 .body{
   background-color:#008080;
@@ -43,6 +44,7 @@
     border-radius:8px;
     transition: all .5s ease;
     background-color: #faf0e6;
+    cursor:pointer;
 }
 /* Adding shadows for the product cards and the button*/
 .card:hover{
@@ -50,7 +52,7 @@
     transition: all .4s ease;
     box-shadow: 0 0 20px rgba(33,33,33,1);
 }
-button:hover{
+.btn:hover{
   opacity:0.8;
   box-shadow: 0 0 11px rgba(33,33,33,1);
   transform: translate3d(0,-1px,0) scale(1.07);
@@ -63,6 +65,7 @@ button:hover{
   float:right;
   border-radius: 20px;
   border: 3px solid white;
+  margin-right: 1rem;
 }
 /*formatting the pagination elements*/
 .pagi{
@@ -84,7 +87,7 @@ button:hover{
 }
 
 .horizontalbreak1{
-  background-color: #454545;
+  background-color: white;
   height:1px;
 }
 
@@ -109,10 +112,85 @@ button:hover{
 }
 
 .logoimg1{
-  width:500px;
-  height:700px;
+  width:10%;
+  height:10%;
 }
 
 .containerbody{
   color:white;
+}
+.horizontalbreak2{
+  background-color: black;
+  height:1px;
+}
+
+.logo{
+  margin-right:42rem;
+}
+
+
+.lds-ellipsis {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-left: 650px;
+  margin-bottom: 100rem;
+}
+.lds-ellipsis div {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  top: 300px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #000000;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+.facetfilters{
+  padding-left: 10px;
 }

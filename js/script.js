@@ -240,20 +240,35 @@ window.onload = function() {
     fetch("https://pim.unbxd.io/peppercorn/api/v2/catalogueView/6391b1448f93e67002742cef", requestOptions)
     .then(response => {
         response.json().then(data=>{
+          document.getElementsByClassName('lds-ellipsis')[0].style.display="None"
           // displaying the product elements as the form of cards in a bootstrap grid
             let prodCard = document.getElementById("forma")
             //products = data["response"]["products"] || [];
             products=safeTraverse(data,["response","products"])
             for (let i = 0; i < products.length; i++) {
+              if(products[i]["productImage"] === undefined){
                 prodCard.innerHTML += `<div class="col md-4 d-flex">
-                                    <div class="card">
-                                    <img class="card-img-top" src="`+products[i]["productImage"]+`" alt="...">
-                                    <div class="card-body">
-                                    <h6 class="card-title">`+products[i]["productName"]+`</h6>
-                                    <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-info stretched-link">View Product</a>
-                  </div>
-                </div>
-              </div>`
+                <div class="card">
+                <img class="card-img-top" src="img-not-available.png" alt="...">
+                <div class="card-body">
+                <h6 class="card-title">`+products[i]["productName"]+`</h6>
+                <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-info stretched-link">View</a>
+</div>
+</div>
+</div>`
+              }
+              else{
+                prodCard.innerHTML += `<div class="col md-4 d-flex">
+                <div class="card">
+                <img class="card-img-top" src="`+products[i]["productImage"]+`" alt="...">
+                <div class="card-body">
+                <h6 class="card-title">`+products[i]["productName"]+`</h6>
+                <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-info stretched-link">View</a>
+</div>
+</div>
+</div>`
+              }
+
 
             }
             // calculating the total number of pages based on the total number of products and the count per page and 
@@ -284,9 +299,10 @@ window.onload = function() {
             sideBar = document.getElementsByClassName('sidebar')[0];
             facets = data["facets"] || {};
             keys = Object.keys(facets) || [];
-            sideBar.innerHTML += '<hr class="horizontalbreak1">'
+            sideBar.innerHTML += '<hr class="horizontalbreak2">'
             for (ind in keys) {
               var fieldName = document.createElement("div");
+              fieldName.className="facetfilters";
       
               fieldName.innerHTML += `
               <p><b>${facets[keys[ind]]["displayName"]}</b></p>
@@ -302,9 +318,10 @@ window.onload = function() {
                   `
       
               }
-              fieldName.innerHTML += '<hr class="horizontalbreak1">';
+              //fieldName.innerHTML += '<hr class="horizontalbreak2">';
               fieldName.innerHTML += "</form>";
               sideBar.appendChild(fieldName);
+              sideBar.innerHTML += '<hr class="horizontalbreak2">';
             }
               //console.log(arr2)
               //checking all the checkboxes displayed which are selected by the user after page reload
@@ -314,6 +331,12 @@ window.onload = function() {
                 for (var checked of markedCheckBox1){
                   checked.checked=true;
                 }}
+                else if(decodedFacetArray[0] ==""){
+                  document.getElementById("reset").disabled=true
+                }
+          }
+          else{
+            document.getElementById("reset").disabled=true
           }
         
     })
