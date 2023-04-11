@@ -98,10 +98,26 @@ window.onload = function(){
                 fetch("https://pim.unbxd.io/peppercorn/api/v2/catalogueProduct", requestOptions)
                 .then(response => {
                     response.json().then(data=>{
+                        document.getElementsByClassName('lds-ellipsis')[0].style.display="None"
                         //productData = data["data"]["response"]["products"][0];
                         productData = safeTraverse(data,["data","response","products","0"])
                         //console.log(productData)
                         let prodCard = document.getElementById("containerbody");
+                        if (productData["productImage"]===undefined){
+                            productData["productImage"]="Img-not-available.png"
+                        }
+                        if(productData["field_390"]===undefined){
+                            productData["field_390"]="Unavailable"
+                        }
+                        if(productData["field_337"]===undefined){
+                            productData["field_337"]="Unavailable"
+                        }
+                        if(productData["field_473"]===undefined){
+                            productData["field_473"]="Unavailable"
+                        }
+                        if(productData["field_188"]===undefined){
+                            productData["field_188"]="Unavailable"
+                        }
                         prodCard.innerHTML += `<div class="col-sm-6>
                         <div class="card" id="prodi">
                         <div class="row card-body">
@@ -130,7 +146,6 @@ window.onload = function(){
                             info.innerHTML+=`<p>`+keys[j]`:   `+data[dict1[keys[j]]]+`</p>`;
                         }*/
                         //Displaying Additional Product Information
-                        info.innerHTML += '<hr class="horizontalbreak1">'
                         info.innerHTML += '<h1 class="centeralign"><u>Additional Information<u></h1>'
                         info.innerHTML += '<br>'
                         info.innerHTML += '<hr class="horizontalbreak1">'

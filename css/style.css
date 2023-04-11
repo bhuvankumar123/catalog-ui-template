@@ -125,9 +125,12 @@
 }
 
 .logo{
-  margin-right:42rem;
+  margin-right:40rem;
 }
 
+.logo1{
+  margin-left:7rem;
+}
 
 .lds-ellipsis {
   justify-content: center;
@@ -192,5 +195,5 @@
 }
 
 .facetfilters{
-  padding-left: 10px;
+  padding-left: 15px;
 }
