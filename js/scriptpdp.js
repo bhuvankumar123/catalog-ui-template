@@ -125,13 +125,13 @@ window.onload = function(){
                         <div class="col-sm-6 basicdetails">
                         <h1 class="centeralign">`+productData["productName"]+`</h1>
                         <hr class="horizontalbreak1">
-                        <h2>$`+productData["field_390"]+`</h2>
+                        <h2>Price:&nbsp`+productData["field_390"]+`</h2>
                         <br>
-                        <h4><u>SKU</u>:`+productData["field_337"]+`</h3>
+                        <h4><u>SKU</u>:&nbsp`+productData["field_337"]+`</h3>
                         <br>
-                        <h4><u>Collection</u>:`+productData["field_473"]+`</h3>
+                        <h4><u>Collection</u>:&nbsp`+productData["field_473"]+`</h3>
                         <br>
-                        <h4><u>Taxable</u>:`+productData["field_188"]+`</h3>
+                        <h4><u>Taxable</u>:&nbsp`+productData["field_188"]+`</h3>
                         <br>
                         </div>
                         </div>
@@ -176,7 +176,23 @@ window.onload = function(){
                                 }
                             //console.log(values1)
                                 for(let i = 0;i<definedValues.length;i += 1){
-                                        info.innerHTML += `<p><b><u>` + definedValues[i][1] + `</b></u>:` + productData[definedValues[i][0]];
+                                        if (definedValues[i][1] === 'IMAGE Url'){
+                                            productData["productImage"]=["https://pim-assets.unbxd.com/images/e17f1f63216d021d5fcbd7933c311b72/1670504158312_SCRIBBLES_0070_1.jpg"]
+                                            const content = document.createElement("div")
+                                            for(let i=0;i<productData["productImage"].length;i+=1){
+                                                content.innerHTML+=`<img class="pdpimage" src="`+ productData["productImage"][i]+`"/>` }
+                                            info.innerHTML += `<div class="productDetails">
+                                                        <div class="productDetKey"><p><u><b>Product Images:</b></u></p></div>
+                                                        <div class="productDetVal">`+content.innerHTML+`
+                                                        </div>
+                                                        </div>` 
+                                    }
+                                        else{
+                                            info.innerHTML += `<div class="productDetails">
+                                                        <div class="productDetKey"><p><u><b>` + definedValues[i][1] +`:</b></u></p></div>
+                                                        <div class="productDetVal">` + productData[definedValues[i][0]] +`</div>
+                                                        </div>`
+                                        }
                                     }
                                 info.innerHTML += '<hr class="horizontalbreak1">'
                             }

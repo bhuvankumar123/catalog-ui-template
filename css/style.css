@@ -1,21 +1,30 @@
+*{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
 .sidebar {
     margin: 0;
     padding: 0;
     background-color:#faf0e6;
     /*height:100%;*/
     height: calc(100vh - 54px);
-    width: 15%;
+    width: 13rem;
     overflow-y: auto;
     /* display:block; */
     position:fixed;
     text-align: left;
     border-right:2px solid black;
-    padding-bottom: 50px;
+    padding-bottom: 100px;
+    padding-top:10px;
   }
 .body{
   background-color:#008080;
+}.pdpimage{
+  width:150px;
+  height:150px;
+  margin-right:10px;
+  margin-bottom:10px;
 }
-
 .nav{
   /*background-color: #009E60; - Dark Green*/
   background-color: #454545;
@@ -31,7 +40,7 @@
 /* grid formatting */
 .forma{
   margin-left: 15rem;
-  margin-right: 3rem;
+  margin-right: 2rem;
   display: flex;
 }
 /* Individual Product Cards */
@@ -76,6 +85,10 @@
   margin-left:15rem;
 }
 
+.btn:disabled{
+  opacity:0.35;
+}
+
 .prev{
   margin-right:1rem;
   background-color:white;
@@ -100,6 +113,7 @@
 .infotext{
   margin-left:1rem;
   margin-right:1rem;
+  text-transform: capitalize;
 }
 
 .centeralign{
@@ -114,8 +128,14 @@
 .logoimg1{
   width:10%;
   height:10%;
+  background-color: black;
+  transition: all .5s ease;
 }
-
+.logoimg1:hover{
+  box-shadow: 0 0 11px rgba(33,33,33,1);
+  transform: translate3d(0,-1px,0) scale(1.01);
+  transition: all .4s ease; 
+}
 .containerbody{
   color:white;
 }
@@ -150,7 +170,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #000000;
+  background: #faf0e6;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {
@@ -196,4 +216,17 @@
 
 .facetfilters{
   padding-left: 15px;
+}
+
+.productDetails{
+  display:flex;
+  flex:wrap;
+}
+
+.productDetKey{
+  width:30%;
+}
+
+.productDetVal{
+  width:60%;
 }

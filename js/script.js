@@ -200,7 +200,7 @@ window.onload = function() {
 
     var raw = JSON.stringify({
     "page": pageNo,
-    "count": 20,
+    "count": count,
     "facet_filters": decodedFacetArray,
     "search_str": prodQuery
     });
@@ -295,11 +295,14 @@ window.onload = function() {
               document.getElementById('next').disabled = true;
             }
             }
+            if(pageNo == 1 && pageNo == dataPages){
+              document.getElementsByClassName('pagi')[0].style.display="None";
+            }
             // Displaying the filters and their options in the sidebar
             sideBar = document.getElementsByClassName('sidebar')[0];
             facets = data["facets"] || {};
             keys = Object.keys(facets) || [];
-            sideBar.innerHTML += '<hr class="horizontalbreak2">'
+            sideBar.innerHTML += '<h5 class="centeralign">Filters</h5>'
             for (ind in keys) {
               var fieldName = document.createElement("div");
               fieldName.className="facetfilters";
@@ -338,45 +341,6 @@ window.onload = function() {
           else{
             document.getElementById("reset").disabled=true
           }
-          const checkBoxes = document.getElementsByClassName('filter');
-          for (checkBox in checkBoxes){
-            const mainCheckboxes = checkBox.querySelectorAll('input[type="checkbox"]:nth-child(-n+5)');
-          
-          // Get the remaining checkboxes
-          const additionalCheckboxes = checkboxes.querySelectorAll('li:nth-child(n+6)');
-          
-          // If there are additional checkboxes, create a collapsible element to contain them
-          if (additionalCheckboxes.length > 0) {
-            // Create the collapsible element
-            const collapsible = document.createElement('div');
-            collapsible.className = 'collapsible';
-          
-            // Create the collapsible header
-            const header = document.createElement('div');
-            header.textContent = 'Show More';
-            header.addEventListener('click', () => {
-              content.classList.toggle('show');
-              header.textContent = content.classList.contains('show') ? 'Show Less' : 'Show More';
-            });
-            collapsible.appendChild(header);
-          
-            // Create the collapsible content
-            const content = document.createElement('div');
-            content.className = 'collapsible-content';
-          
-            // Add the additional checkboxes to the collapsible content
-            additionalCheckboxes.forEach(checkbox => {
-              content.appendChild(checkBox);
-            });
-          
-            // Add the collapsible content to the collapsible element
-            collapsible.appendChild(content);
-          
-            // Add the collapsible element to the sidebar
-            checkboxes.parentNode.insertBefore(collapsible, checkboxes.nextSibling);
-          }         
-          }
-          // Get the first 5 checkboxes
     })
   })
   }
