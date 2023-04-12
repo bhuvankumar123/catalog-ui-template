@@ -177,7 +177,6 @@ window.onload = function(){
                             //console.log(values1)
                                 for(let i = 0;i<definedValues.length;i += 1){
                                         if (definedValues[i][1] === 'IMAGE Url'){
-                                            productData["productImage"]=["https://pim-assets.unbxd.com/images/e17f1f63216d021d5fcbd7933c311b72/1670504158312_SCRIBBLES_0070_1.jpg"]
                                             const content = document.createElement("div")
                                             for(let i=0;i<productData["productImage"].length;i+=1){
                                                 content.innerHTML+=`<img class="pdpimage" src="`+ productData["productImage"][i]+`"/>` }
