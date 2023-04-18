@@ -5,20 +5,23 @@
 .sidebar {
     margin: 0;
     padding: 0;
-    background-color:#faf0e6;
+    background-color:whitesmoke;
     /*height:100%;*/
-    height: calc(100vh - 54px);
+    height: 86%;
     width: 13rem;
     overflow-y: auto;
     /* display:block; */
     position:fixed;
     text-align: left;
-    border-right:2px solid black;
+    border-right:0.1px solid black;
     padding-bottom: 100px;
     padding-top:10px;
+    border-bottom:0.1px solid black;
+    /* border-top:0.1px solid black; */
+    margin-bottom: 20px;
   }
 .body{
-  background-color:#008080;
+  background-color:white;
 }.pdpimage{
   width:200px;
   height:200px;
@@ -27,15 +30,15 @@
 }
 .nav{
   /*background-color: #009E60; - Dark Green*/
-  background-color: #454545;
+  background-color: gray;
   position:sticky;
   overflow: auto; 
   display:flex;
   top:0;
   width:100%;
   height:100px;
-  border-bottom: 2px solid black;
   z-index:999;
+  border-bottom:0.1px solid black;
 }
 /* grid formatting */
 .forma{
@@ -47,12 +50,10 @@
 .card{
     margin-top: 1rem;
     margin-bottom: 1rem;
-    margin-left: 5px;
-    margin-right: 5px;
-    border: 3px solid black;
-    border-radius:8px;
+    margin-left: 1px;
+    margin-right: 1px;
     transition: all .5s ease;
-    background-color: #faf0e6;
+    background-color: whitesmoke;
     cursor:pointer;
 }
 /* Adding shadows for the product cards and the button*/
@@ -70,11 +71,12 @@
 
 /*formating the search bar*/
 .searchquery{
-  width:150px;
+  width:200px;
   float:right;
   border-radius: 20px;
   border: 3px solid white;
   margin-right: 1rem;
+  background-color: whitesmoke;
 }
 /*formatting the pagination elements*/
 .pagi{
@@ -107,8 +109,8 @@
 .info{
   margin-left:2rem;
   margin-right:2rem;
-  background-color: #454545;
-  color:white;
+  background-color: white;
+  color:black;
 }
 .infotext{
   margin-left:1rem;
@@ -137,11 +139,11 @@
   transition: all .4s ease; 
 }
 .containerbody{
-  color:white;
+  color:black;
 }
 .horizontalbreak2{
   background-color: black;
-  height:1px;
+  opacity: 0.10;
 }
 
 .logo{
@@ -170,7 +172,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #faf0e6;
+  background: black;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {
@@ -229,4 +231,14 @@
 
 .productDetVal{
   width:60%;
+}
+.plp{
+  flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    justify-content: space-around;
 }

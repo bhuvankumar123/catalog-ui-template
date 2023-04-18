@@ -35,6 +35,7 @@ window.onload = function(){
     const urlParams = new URLSearchParams(queryString);
     let prodId = urlParams.get('ProductId')  || "";
     let prodQuery = urlParams.get('q') || "";
+    let catalogId = urlParams.get('CatalogID');
     //document.getElementById('searchquery').value = prodQuery;
     var myHeaders = new Headers();
     myHeaders.append("Accept", "*/*");
@@ -74,12 +75,13 @@ window.onload = function(){
             for (let i = 0;i< propertyData.length;i += 1){
                 if(!(propertyData[i]["group"] in propertyMapping)){
                     propertyMapping[propertyData[i]["group"]] = []
-                    propertyMapping[propertyData[i]["group"]].push([propertyData[i]["field_id"],propertyData[i]["name"]])
+                    propertyMapping[propertyData[i]["group"]].push([propertyData[i]["field_id"],propertyData[i]["name"],propertyData[i]["data_type"]])
                 }
                 else{
-                    propertyMapping[propertyData[i]["group"]].push([propertyData[i]["field_id"],propertyData[i]["name"]])
+                    propertyMapping[propertyData[i]["group"]].push([propertyData[i]["field_id"],propertyData[i]["name"],propertyData[i]["data_type"]])
                 }
             }
+            console.log(propertyMapping)
             //console.log(dict1)
             //img = data["data"]["catalog_logo_url"]
             img = safeTraverse(data,["data","catalog_logo_url"])
@@ -104,35 +106,32 @@ window.onload = function(){
                         //console.log(productData)
                         let prodCard = document.getElementById("containerbody");
                         if (productData["productImage"]===undefined){
-                            productData["productImage"]="Img-not-available.png"
+                            productData["productImage"]=["Img-not-available.png"]
                         }
-                        if(productData["field_390"]===undefined){
-                            productData["field_390"]="Unavailable"
+                        if(productData["productName"]===undefined){
+                            productData["productName"]="Not Available"
                         }
-                        if(productData["field_337"]===undefined){
-                            productData["field_337"]="Unavailable"
+                        if(productData["uniqueId"]===undefined){
+                            productData["uniqueId"]="Not Available"
                         }
-                        if(productData["field_473"]===undefined){
-                            productData["field_473"]="Unavailable"
+                        if(productData["product_status"]===undefined){
+                            productData["product_status"]="Not Available"
                         }
-                        if(productData["field_188"]===undefined){
-                            productData["field_188"]="Unavailable"
+                        if(productData["updated_at"]===undefined){
+                            productData["updated_at"]==="Not Available"
                         }
                         prodCard.innerHTML += `<div class="col-sm-6>
                         <div class="card" id="prodi">
                         <div class="row card-body">
-                        <img src="`+productData["productImage"]+`" alt="..." class="col-sm-6 logoimg1">
+                        <img src="`+productData["productImage"][0]+`" alt="..." class="col-sm-6 logoimg1">
                         <div class="col-sm-6 basicdetails">
                         <h1 class="centeralign">`+productData["productName"]+`</h1>
                         <hr class="horizontalbreak1">
-                        <h2>Price:&nbsp`+productData["field_390"]+`</h2>
+                        <h2>UniqueId:&nbsp`+productData["uniqueId"]+`</h2>
                         <br>
-                        <h4><u>SKU</u>:&nbsp`+productData["field_337"]+`</h3>
+                        <h3>Product Status:&nbsp`+productData["product_status"]+`</h3>
                         <br>
-                        <h4><u>Collection</u>:&nbsp`+productData["field_473"]+`</h3>
-                        <br>
-                        <h4><u>Taxable</u>:&nbsp`+productData["field_188"]+`</h3>
-                        <br>
+                        <h3>Updated At:&nbsp`+productData["updated_at"]+`</h3>
                         </div>
                         </div>
                         </div>`
@@ -151,7 +150,7 @@ window.onload = function(){
                         info.innerHTML += '<hr class="horizontalbreak1">'
                         //console.log(keys.length)
                         //let keys = Object.keys(data)
-                        for (let j = 0;j<keys.length;j += 1){
+                        for (let j = keys.length-1;j>=0;j -= 1){
                             /*if(keys[j].includes("field")){
                             info.innerHTML+=`<p><b><u>`+dict1[keys[j]]+`</b></u>:`+data[keys[j]];
                             }
@@ -177,21 +176,37 @@ window.onload = function(){
                             //console.log(values1)
                                 for(let i = 0;i<definedValues.length;i += 1){
                                         if (definedValues[i][1] === 'IMAGE Url'){
+                                            console.log(definedValues[i])
                                             const content = document.createElement("div")
                                             for(let i=0;i<productData["productImage"].length;i+=1){
+                                                console.log(productData["productImage"][i])
                                                 content.innerHTML+=`<img class="pdpimage" src="`+ productData["productImage"][i]+`"/>` }
                                             info.innerHTML += `<div class="productDetails">
-                                                        <div class="productDetKey"><p><u><b>Product Images:</b></u></p></div>
+                                                        <div class="productDetKey"><p><b>Product Images:</b></p></div>
                                                         <div class="productDetVal">`+content.innerHTML+`
                                                         </div>
                                                         </div>` 
                                     }
+                                    else if(definedValues[i][2]==="image"){
+                                        info.innerHTML += `<div class="productDetails">
+                                                        <div class="productDetKey"><p><b>` + definedValues[i][1] +`:</b></p></div>
+                                                        <div class="productDetVal"><img class="pdpimage" src="` + productData[definedValues[i][0]] +`"</div>
+                                                        </div>`
+                                    }
+                                        else if (definedValues[i][2]==="link"){
+                                            info.innerHTML += `<div class="productDetails">
+                                                        <div class="productDetKey"><p><b>` + definedValues[i][1] +`:</b></p></div>
+                                                        <div class="productDetVal"><a href="` + productData[definedValues[i][0]] +`"</div>
+                                                        </div>`
+                                        }
                                         else{
                                             info.innerHTML += `<div class="productDetails">
-                                                        <div class="productDetKey"><p><u><b>` + definedValues[i][1] +`:</b></u></p></div>
+                                                        <div class="productDetKey"><p><b>` + definedValues[i][1] +`:</b></p></div>
                                                         <div class="productDetVal">` + productData[definedValues[i][0]] +`</div>
                                                         </div>`
                                         }
+                                        
+                                        
                                     }
                                 info.innerHTML += '<hr class="horizontalbreak1">'
                             }

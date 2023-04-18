@@ -1,5 +1,13 @@
 // function to implement debouncing
-function debounce(func,timeout=3000){
+function debounce(func,timeout=1000){
+  let timer;
+  return (args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this,args);
+                        }, timeout);
+  };
+}
+function debounce1(func,timeout=3000){
   let timer;
   return (args) => {
     clearTimeout(timer);
@@ -87,7 +95,7 @@ function checkbox(){
 //function to implement filtering based on facets selected by the user
 // calling search and filtering functions with debouncing
 const processChanges = debounce(() => search());
-const check = debounce(() => checkbox());
+const check = debounce1(() => checkbox());
 // implementing function for pagination to go back to the previous page
 function prev(){
   const queryString = new URL(window.location.href)
@@ -125,6 +133,10 @@ window.onload = function() {
     let facets = urlParams.get('facets');
     let decoded = decodeURIComponent(facets);
     let count = urlParams.get('count');
+    let catalogId = urlParams.get('CatalogID');
+    if (catalogId === null){
+      catalogId = "642a6751ae38fe17eaa2e37e";
+    }
     if (count === null){
       count = 20;
     }
@@ -247,23 +259,23 @@ window.onload = function() {
             products=safeTraverse(data,["response","products"])
             for (let i = 0; i < products.length; i++) {
               if(products[i]["productImage"] === undefined){
-                prodCard.innerHTML += `<div class="col md-4 d-flex">
+                prodCard.innerHTML += `<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 d-flex">
                 <div class="card">
                 <img class="card-img-top" src="img-not-available.png" alt="...">
                 <div class="card-body">
                 <h6 class="card-title">`+products[i]["productName"]+`</h6>
-                <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-info stretched-link">View</a>
+                <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-light stretched-link view">View</a>
 </div>
 </div>
 </div>`
               }
               else{
-                prodCard.innerHTML += `<div class="col md-4 d-flex">
+                prodCard.innerHTML += `<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 d-flex">
                 <div class="card">
-                <img class="card-img-top" src="`+products[i]["productImage"]+`" alt="...">
-                <div class="card-body">
+                <img class="card-img-top" src="`+products[i]["productImage"][0]+`" alt="...">
+                <div class="card-body plp">
                 <h6 class="card-title">`+products[i]["productName"]+`</h6>
-                <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-info stretched-link">View</a>
+                <a href="/pdp.html?ProductId=`+products[i]["uniqueId"]+`" class="align-self-end btn btn-light stretched-link view">View</a>
 </div>
 </div>
 </div>`
