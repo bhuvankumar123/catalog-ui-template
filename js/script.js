@@ -355,4 +355,6 @@ window.onload = function() {
           }
     })
   })
+  footer=document.getElementById('footer')
+  footer.innerHTML += `<footer>2023 Unbxd Inc., All Rights Reserved</footer>`
   }
